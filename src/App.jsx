@@ -1,13 +1,13 @@
 import React from "react";
+import { Routes, Route } from "react-router-dom"
+
 import "./App.css";
 import Footer from "./Footer";
 import Header from "./Header";
 import Products from "./Products"
-import { Routes, Route } from "react-router-dom"
 import Cart from './Cart';
 import Detail from './Detail';
 export default function App() {
-
 
   return (
     <>
@@ -21,8 +21,8 @@ export default function App() {
             <Route path="/detail" element={<Detail />} />
           </Routes>
         </main>
+        <Footer />
       </div>
-      <Footer />
     </>
   );
 }
