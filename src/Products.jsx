@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import useFetch from './useFetch';
 import Spinner from './Spinner';
 import { useParams } from "react-router-dom";
+import PageNotFound from "./PageNotFound";
 
 export default function Products() {
 
@@ -30,6 +31,7 @@ export default function Products() {
     : products;
   if (error) throw error;
   if (loading) return <Spinner />
+  if (products.length === 0) return <PageNotFound />
   return (
     <div>
       <section id="filters">
