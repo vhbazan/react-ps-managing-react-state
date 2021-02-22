@@ -27,7 +27,9 @@ export default function App() {
 
   function updateQuantity(sku, quantity) {
     setCart((items) => {
-      return items.map(i => i.sku === sku ? { ...i, quantity } : i)
+      return quantity === 0
+        ? items.filter(item => item.sku !== sku)
+        : items.map(i => i.sku === sku ? { ...i, quantity } : i)
     })
   }
 
