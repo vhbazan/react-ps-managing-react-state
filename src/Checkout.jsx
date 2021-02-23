@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { saveShippingAddress } from "./services/shippingService";
 
 const STATUS = {
   IDLE: "IDLE",
@@ -13,9 +14,11 @@ const emptyAddress = {
 };
 
 
-export default function Checkout({ cart }) {
+export default function Checkout({ cart, emptyCart }) {
   const [address, setAddress] = useState(emptyAddress);
-  const [status, setStatus] = useState(STATUS.IDLE)
+  const [status, setStatus] = useState(STATUS.IDLE);
+  const [saveError, setSaveError] = useState(null);
+
   function handleChange(e) {
     e.persist(); // persist the event 
     setAddress((currAddress) => {
@@ -27,15 +30,21 @@ export default function Checkout({ cart }) {
   }
 
   function handleBlur(event) {
-    // TODO
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
     setStatus(STATUS.SUBMITTING);
-    // TODO
+    try {
+      await saveShippingAddress(address);
+      emptyCart();
+      setStatus(STATUS.COMPLETED);
+    } catch (e) {
+      setSaveError(e);
+    }
   }
 
+  if (saveError) throw saveError;
   return (
     <>
       <h1>Shipping Info</h1>
