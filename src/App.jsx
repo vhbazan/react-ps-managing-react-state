@@ -8,6 +8,7 @@ import Products from "./Products"
 import Cart from './Cart';
 import Detail from './Detail';
 import { useState } from "react";
+import Checkout from "./Checkout";
 export default function App() {
 
   const [cart, setCart] = useState(() => {
@@ -54,6 +55,7 @@ export default function App() {
             <Route path="/:category" element={<Products />} />
             <Route path="/cart" element={<Cart cart={cart} updateQuantity={updateQuantity} />} />
             <Route path="/:category/:id" element={<Detail addToCart={addToCart} />} />
+            <Route path="/checkout" element={<Checkout cart={cart} />} />
           </Routes>
         </main>
         <Footer />
