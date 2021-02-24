@@ -45,6 +45,9 @@ export default function Checkout({ cart, emptyCart }) {
   }
 
   if (saveError) throw saveError;
+  if (status === STATUS.COMPLETED) {
+    return <h1>Thanks for shopping!</h1>
+  }
   return (
     <>
       <h1>Shipping Info</h1>
