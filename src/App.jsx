@@ -6,7 +6,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import Products from "./Products"
 import Cart from './Cart';
-import Detail from './DetailRefs';
+import Detail from './Detail';
 import { useState } from "react";
 import Checkout from "./Checkout";
 export default function App() {
