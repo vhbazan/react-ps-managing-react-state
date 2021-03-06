@@ -2,6 +2,12 @@ export default function cartReducer(cart, action) {
   switch (action.type) {
     case 'EMPTY_CART':
       return [];
+    case 'UPDATE_QUANTITY': {
+      const { sku, quantity } = action;
+      return quantity === 0
+        ? cart.filter(item => item.sku !== sku)
+        : cart.map(i => i.sku === sku ? { ...i, quantity } : i)
+    }
     case 'ADD':
       const { id, sku } = action;
       const itemInCart = cart.find((item) => item.sku === sku);
