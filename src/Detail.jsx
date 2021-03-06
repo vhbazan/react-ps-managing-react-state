@@ -28,7 +28,7 @@ export default function Detail(props) {
       <p>
         <button className="btn btn-primary" disabled={!sku}
           onClick={() => {
-            props.addToCart(product.id, sku);
+            props.dispatch({ type: 'ADD', id: product.id, sku });
             navigate("/cart")
           }}>Add to Cart</button>
       </p>
