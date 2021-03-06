@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useReducer } from "react";
 import { Routes, Route } from "react-router-dom"
 
 import "./App.css";
@@ -7,47 +7,23 @@ import Header from "./Header";
 import Products from "./Products"
 import Cart from './Cart';
 import Detail from './Detail';
-import { useState } from "react";
 import Checkout from "./Checkout";
+import cartReducer from './reducers/cartReducer';
 export default function App() {
 
-  const [cart, setCart] = useState(() => {
-    try {
-      return JSON.parse(localStorage.getItem('cart')) ?? [];
-    } catch {
-      console.error('The cart could not be parsed into JSON');
-      return []
-    }
+  let initialCart;
+  try {
+    initialCart = JSON.parse(localStorage.getItem('cart')) ?? [];
+  } catch {
+    console.error('The cart could not be parsed into JSON');
+    initialCart = [];
   }
+
+  const [cart, dispatch] = useReducer(cartReducer, initialCart
   );
   useEffect(() => {
     return localStorage.setItem('cart', JSON.stringify(cart));
   }, [cart])
-
-  function addToCart(id, sku) {
-    console.log('addToCart')
-    setCart((items) => {
-      const itemInCart = items.find((item) => item.sku === sku);
-      if (itemInCart) {
-        return items.map(item => item.id === id ? { ...item, quantity: item.quantity + 1 } : item)
-      }
-      return [...items,
-      { id, sku, quantity: 1 }
-      ]
-    })
-  }
-
-  function updateQuantity(sku, quantity) {
-    setCart((items) => {
-      return quantity === 0
-        ? items.filter(item => item.sku !== sku)
-        : items.map(i => i.sku === sku ? { ...i, quantity } : i)
-    })
-  }
-
-  function emptyCart() {
-    setCart([]);
-  }
 
   return (
     <>
@@ -57,9 +33,9 @@ export default function App() {
           <Routes>
             <Route path="/" element={<h1>Welcome to Carved Rock Fitness</h1>} />
             <Route path="/:category" element={<Products />} />
-            <Route path="/cart" element={<Cart cart={cart} updateQuantity={updateQuantity} />} />
-            <Route path="/:category/:id" element={<Detail addToCart={addToCart} />} />
-            <Route path="/checkout" element={<Checkout cart={cart} emptyCart={emptyCart} />} />
+            <Route path="/cart" element={<Cart cart={cart} dispatch={dispatch} />} />
+            <Route path="/:category/:id" element={<Detail dispatch={dispatch} />} />
+            <Route path="/checkout" element={<Checkout cart={cart} dispatch={dispatch} />} />
           </Routes>
         </main>
         <Footer />
