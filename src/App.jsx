@@ -9,27 +9,10 @@ import Cart from './Cart';
 import Detail from './Detail';
 import Checkout from "./Checkout";
 import cartReducer from './reducers/cartReducer';
-import { CartContext } from './context/cartContext';
-
-let initialCart;
-try {
-  initialCart = JSON.parse(localStorage.getItem('cart')) ?? [];
-} catch {
-  console.error('The cart could not be parsed into JSON');
-  initialCart = [];
-}
 
 export default function App() {
-
-
-  const [cart, dispatch] = useReducer(cartReducer, initialCart
-  );
-  useEffect(() => {
-    return localStorage.setItem('cart', JSON.stringify(cart));
-  }, [cart])
-
   return (
-    <CartContext.Provider value={{ cart, dispatch }}>
+    <>
       <div className="content">
         <Header />
         <main>
@@ -43,6 +26,6 @@ export default function App() {
         </main>
         <Footer />
       </div>
-    </CartContext.Provider>
+    </>
   );
 }
