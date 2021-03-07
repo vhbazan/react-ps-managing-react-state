@@ -7,7 +7,7 @@ import Header from "./Header";
 import Products from "./Products"
 import Cart from './Cart';
 import Detail from './Detail';
-import Checkout from "./Checkout";
+import Checkout from "./Checkout.class";
 import { useCart } from "./context/cartContext";
 
 
