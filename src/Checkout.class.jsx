@@ -55,17 +55,19 @@ export default class Checkout extends React.Component() {
 
   async handleSubmit(event) {
     event.preventDefault();
-    setStatus(STATUS.SUBMITTING);
-    if (isValid) {
+    this.setState({
+      status: STATUS.SUBMITTING
+    });
+    if (this.isValid()) {
       try {
-        await saveShippingAddress(address);
+        await saveShippingAddress(this.state.address);
         this.props.dispatch({ type: 'EMPTY_CART' });
-        setStatus(STATUS.COMPLETED);
+        this.setState({ status: STATUS.COMPLETED });
       } catch (e) {
-        setSaveError(e);
+        this.setState({ saveError: e });
       }
     } else {
-      setStatus(STATUS.SUBMITTED);
+      this.setState({ status: STATUS.SUBMITTED });
     }
 
   }
