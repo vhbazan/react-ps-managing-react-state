@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { saveShippingAddress } from "./services/shippingService";
 
 const STATUS = {
@@ -14,7 +14,7 @@ const emptyAddress = {
 };
 
 
-export default class Checkout extends React.Component() {
+export default class Checkout extends React.Component {
 
   state = {
     address: emptyAddress,
@@ -24,7 +24,7 @@ export default class Checkout extends React.Component() {
   }
 
   isValid() {
-    errors = getErrors(this.state.address);
+    const errors = this.getErrors(this.state.address);
     return Object.keys(errors).length === 0;
   }
 
@@ -80,6 +80,9 @@ export default class Checkout extends React.Component() {
     return result;
   }
   render() {
+    const { status, saveError, address, touched } = this.state;
+    //derived state
+    const errors = this.getErrors(this.state.address);
 
     if (saveError) { throw saveError; }
     if (status === STATUS.COMPLETED) {
@@ -89,7 +92,7 @@ export default class Checkout extends React.Component() {
     return (
       <>
         <h1>Shipping Info</h1>
-        {!isValid && status === STATUS.SUBMITTED && (
+        {!this.isValid() && status === STATUS.SUBMITTED && (
           <div role="alert">
             <p>Please Fix the following errors</p>
             <ul>
@@ -99,7 +102,7 @@ export default class Checkout extends React.Component() {
             </ul>
           </div>
         )}
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={this.handleSubmit}>
           <div>
             <label htmlFor="city">City</label>
             <br />
@@ -107,8 +110,8 @@ export default class Checkout extends React.Component() {
               id="city"
               type="text"
               value={address.city}
-              onBlur={handleBlur}
-              onChange={handleChange}
+              onBlur={this.handleBlur}
+              onChange={this.handleChange}
             />
             <p role="alert">
               {(touched.city || status === STATUS.SUBMITTED) && errors.city}
@@ -121,8 +124,8 @@ export default class Checkout extends React.Component() {
             <select
               id="country"
               value={address.country}
-              onBlur={handleBlur}
-              onChange={handleChange}
+              onBlur={this.handleBlur}
+              onChange={this.handleChange}
             >
               <option value="">Select Country</option>
               <option value="China">China</option>
