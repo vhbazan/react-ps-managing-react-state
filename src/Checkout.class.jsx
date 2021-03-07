@@ -30,20 +30,25 @@ export default class Checkout extends React.Component() {
 
   handleChange(e) {
     e.persist(); // persist the event 
-    setAddress((currAddress) => {
+    this.setState((state) => {
       return {
-        ...currAddress,
-        [e.target.id]: e.target.value
+        adress:
+        {
+          ...state.address,
+          [e.target.id]: e.target.value
+        }
       }
     })
   }
 
   handleBlur(event) {
     event.persist();
-    setTouched((currTouched) => {
+    this.setState((state) => {
       return {
-        ...currTouched,
-        [event.target.id]: true
+        touched: {
+          ...state.touched,
+          [event.target.id]: true
+        }
       }
     })
   }
